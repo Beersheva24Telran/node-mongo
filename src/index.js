@@ -37,4 +37,32 @@ function toDbCourse(course) {
   const { name, lecturer, hours, id } = course;
   return { _id: id, name, lecturer, hours };
 }
-insertCourses();
+// insertCourses();
+async function findCourse(courseId) {
+    const course = await courses.findOne({_id:courseId})
+    if(!course) {
+        throw Error(`course ${courseId} not found`);
+    }
+    return course;
+}
+//findCourse("J11").then((course) => console.log(course)).catch(e => console.log(e.message)).finally(()=>mongoConnection.close());
+async function findFilteredCourses(filter) {
+    const coursesRes = await courses.find(filter).toArray();
+    return coursesRes
+}
+//findFilteredCourses({lecturer: "Vasya", hours:200}).then((course) => console.log(course)).catch(e => console.log(e.message)).finally(()=>mongoConnection.close()) 
+async function updateCourse(courseId, updaterObj) {
+    const course = await courses.findOneAndUpdate({_id:courseId}, {$set:updaterObj}, {returnDocument: "after"});
+    return course;
+}
+// const course = await updateCourse("J101",{hours:400});
+async function deleteCourse(courseId) { 
+    const res = await courses.findOneAndDelete({_id:courseId});
+    if(!res) {
+        throw Error(`course ${courseId} not found`)
+    }
+    return res;
+    
+}
+
+deleteCourse("J101").then(res => console.log(res)).catch(e => console.log(e.message)).finally(()=>mongoConnection.close())
