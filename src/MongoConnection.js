@@ -9,7 +9,7 @@ export default class MongoConnection {
 
     }
     getCollection(collectionName) {
-        return this.#db(collectionName);
+        return this.#db.collection(collectionName);
     }
     async close() {
         await this.#client.close();
