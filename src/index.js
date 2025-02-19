@@ -1,0 +1,3 @@
+import MongoConnection from "./MongoConnection";
+const {MONGO_CONNECTION, MONGO_PASSWORD, MONGO_CLUSTER,DB_NAME, COURSES_COLLECTION, ACCOUNTS_COLLECTION} = process.env;
+const connectionString = `${MONGO_CONNECTION}:${MONGO_PASSWORD}@${MONGO_CLUSTER}`
